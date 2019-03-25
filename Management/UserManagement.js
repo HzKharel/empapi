@@ -7,7 +7,7 @@ function register(req, res, next) {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const email = req.body.email;
-    const date = new Date().toDateString();
+    const date = new Date().toLocaleString();
     const SQLinsert = `INSERT INTO user
   (User_Password, User_Name, First_Name, Last_Name, Email, Creation_Date)
   VALUES (?,?,?,?,?,?)`;

@@ -23,7 +23,7 @@ CREATE TABLE Message (
 	From_User int NOT NULL,
 	To_User int NOT NULL,
 	Encryption varchar(100) NOT NULL,
-	Sent_Date datetime NOT NULL,
+	Sent_Date varchar(255) NOT NULL,
 	Encryption_Key varchar(100) NOT NULL,
 	FOREIGN KEY(From_User) REFERENCES USER(UserID),
 	FOREIGN KEY(To_User) REFERENCES USER(UserID)
