@@ -1,5 +1,5 @@
 const express = require('express');
-const user_management = require('./UserManagement/UserManagement');
+const user_management = require('./Management/UserManagement');
 const app = express();
 app.use(express.json());
 const user_register = user_management.register_user;
