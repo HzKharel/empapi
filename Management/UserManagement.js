@@ -13,8 +13,7 @@ function register(req, res, next) {
   VALUES (?,?,?,?,?,?)`;
     db.run(SQLinsert, [password, username, first_name, last_name, email, date], (err) => {
         if (err) {
-         //   console.log(err);
-            console.log("hol up");
+            console.log(err);
             if (err.toString().toLowerCase().includes('email')) {
                 res.send("ERROR: Email Address Must Be Unique");
             }
@@ -89,7 +88,7 @@ function updateDetails(req, res, next) {
             res.send(400);
         }
         else {
-            next();
+            res.send(200);
         }
     });
     
@@ -111,13 +110,14 @@ function getUserDetails(req, res, next) {
             const email = row.Email;
             const creation_date = row.Creation_Date;
 
-            let response = `"User_ID : "${user_id}",
-            "User_Name" : "${user_name}",
-            "User_Password" : "${user_password}",
-            "First_Name" : "${first_name}",
-            "Last_Name" : "${last_name}",
-            "Email" : "${email},
-            "Creation_Date": "${creation_date}"`;
+            let response = {"User_ID" : user_id,
+            "User_Name" : user_name,
+            "User_Password" : user_password,
+            "First_Name" : first_name,
+            "Last_Name" : last_name,
+            "Email" : email,
+            "Creation_Date": creation_date};
+
 
             res.send(response);
         }
@@ -134,7 +134,7 @@ function deleteUser(req, res, next) {
             res.sendStatus(400);
         }
         else {
-            next();
+            res.send(200);
         }
     });
 
