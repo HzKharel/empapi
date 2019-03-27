@@ -9,13 +9,11 @@ CREATE TABLE User (
 	PRIMARY KEY (UserID)
 );
 
-CREATE TABLE FriendList (
-	User_one_ID INT NOT NULL UNIQUE,
-	User_two_ID INT NOT NULL UNIQUE,
-	Status TINYINT NOT NULL,
-	Action_User_ID INT NOT NULL,
-	FOREIGN KEY(User_one_ID) REFERENCES USER(UserID),
-	FOREIGN KEY(User_two_ID) REFERENCES USER(UserID)
+CREATE TABLE ContactList (
+	User_Name varchar(255) NOT NULL,
+	Contact_Name varchar(255) NOT NULL UNIQUE,
+	FOREIGN KEY(User_Name) REFERENCES USER(User_Name),
+	FOREIGN KEY(Contact_Name) REFERENCES USER(User_Name)
 );
 
 CREATE TABLE Message (

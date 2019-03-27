@@ -57,7 +57,7 @@ function auth(req, res, next) {
                 }
             }
             catch (e){
-                res.sendStatus(404);
+                res.sendStatus(400);
             }
 
         }

@@ -1,6 +1,7 @@
 const express = require('express');
 const um = require('./Management/UserManagement');
 const mm = require('./Management/MessageManagement');
+const cm = require('./Management/FriendListManagement');
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,8 @@ const user_details = um.user_details;
 const delete_user = um.delete_user;
 const send_message = mm.send_message;
 const get_messages = mm.get_messages;
+const add_contact = cm.addContact;
+const get_contacts = cm.getContacts;
 
 //request mapping
 app.post('/api/registerUser',(req, res) => {
@@ -35,6 +38,10 @@ app.post('/api/deleteUser',authorize, delete_user, (req, res) =>{
 app.post('/api/sendMessage', authorize, send_message);
 
 app.get('/api/getMessages', authorize, get_messages);
+
+app.post('/api/addContact', authorize, add_contact);
+
+app.get('/api/getContacts', authorize, get_contacts);
 
 
 const port = process.env.PORT || 3000;
