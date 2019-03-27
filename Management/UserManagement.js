@@ -11,23 +11,23 @@ function register(req, res, next) {
     const SQLinsert = `INSERT INTO user
   (User_Password, User_Name, First_Name, Last_Name, Email, Creation_Date)
   VALUES (?,?,?,?,?,?)`;
+
     db.run(SQLinsert, [password, username, first_name, last_name, email, date], (err) => {
         if (err) {
             console.log(err);
             if (err.toString().toLowerCase().includes('email')) {
-                res.send("ERROR: Email Address Must Be Unique");
+                res.send("Error: Email Must be Unique");
             }
             else if (err.toString().toLowerCase().includes('user_name')) {
-                res.send("ERROR: User Name Must Be Unique");
+                res.send("Error: Username Must be Unique");
             }
             else {
                 res.send("Unexpected Error!");
             }
         }
         else {
+            console.log("msg");
             res.send("User Created Successfully");
-           // next();
-
         }
 
 
@@ -39,6 +39,7 @@ function auth(req, res, next) {
     const username = req.header('username');
     const password = req.header('password');
 
+    console.log(username, password);
     let sql = `SELECT User_Name, User_Password FROM User WHERE User_Name = "${username}"`;
     db.get(sql, [], (err, row)=>{
         if(err){
@@ -52,12 +53,13 @@ function auth(req, res, next) {
                 }
                 else{
 
-
-                    res.sendStatus(404);
+                    console.log("user not found");
+                    res.send(404);
                 }
             }
             catch (e){
-                res.sendStatus(400);
+                console.log("Error");
+                res.send(400);
             }
 
         }

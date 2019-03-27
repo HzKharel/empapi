@@ -5,11 +5,11 @@ function add_contact(req, res, next) {
 
     const senderName = req.header('username');
     const reciverName = req.body.contact;
-    console.log(reciverName);
+    const contactID = senderName+reciverName;
 
-    const sql = "INSERT INTO ContactList (User_Name, Contact_Name) VALUES (?,?)";
+    const sql = "INSERT INTO ContactList (ID, User_Name, Contact_Name) VALUES (?,?)";
 
-    db.run(sql, [senderName,reciverName], (err)=>{
+    db.run(sql, [contactID, senderName,reciverName], (err)=>{
        if(err){
            res.sendStatus(400);
        }
@@ -27,8 +27,7 @@ function get_contacts(req, res, next) {
     const sql = `SELECT DISTINCT Contact_Name FROM ContactList WHERE User_Name =  "${user_name}"`;
     db.all(sql, [], (err, rows)=>{
        if(err){
-           console.log(err);
-           res.send(err);
+           res.send(400);
        }
        else {
            rows.forEach((row)=>{
@@ -46,5 +45,22 @@ function get_contacts(req, res, next) {
     });
 }
 
+function delete_contact(req, res, next) {
+    const senderName = req.header('username');
+    const reciverName = req.body.contact;
+    const contactID = senderName+reciverName;
+
+    let sql = `DELETE FROM ContactList WHERE ID = "${contactID}"`;
+    db.run(sql,[],(err)=>{
+        if(err){
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(200);
+        }
+    });
+}
+
 module.exports.addContact = add_contact;
 module.exports.getContacts = get_contacts;
+module.exports.deleteContact = delete_contact;

@@ -65,7 +65,7 @@ function getMesseages(req, res, next) {
                     });
                     res.send(JSON.stringify(messages));
                 }
-                catch (e){
+                catch (e) {
                     res.send(400);
                 }
             }

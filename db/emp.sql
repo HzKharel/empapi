@@ -10,8 +10,9 @@ CREATE TABLE User (
 );
 
 CREATE TABLE ContactList (
+	ID VARCHAR(600) NOT NULL UNIQUE,
 	User_Name varchar(255) NOT NULL,
-	Contact_Name varchar(255) NOT NULL UNIQUE,
+	Contact_Name varchar(255) NOT NULL,
 	FOREIGN KEY(User_Name) REFERENCES USER(User_Name),
 	FOREIGN KEY(Contact_Name) REFERENCES USER(User_Name)
 );

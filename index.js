@@ -15,25 +15,26 @@ const send_message = mm.send_message;
 const get_messages = mm.get_messages;
 const add_contact = cm.addContact;
 const get_contacts = cm.getContacts;
+const delete_contact = cm.deleteContact;
+
+let allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
+    next();
+}
+app.use(allowCrossDomain);
 
 //request mapping
-app.post('/api/registerUser',(req, res) => {
-    user_register(req, res);
-});
+app.post('/api/registerUser', user_register);
 
-app.post('/api/login',authorize, (req, res) => {
+app.post('/api/login',authorize, (req, res)=>{
     res.sendStatus(200);
 });
-
-app.post('/api/updateUser',authorize, updateDetails, (req, res) => {
-    res.sendStatus(200);
-});
+app.post('/api/updateUser',authorize, updateDetails);
 
 app.get('/api/getUserDetails',authorize, user_details);
 
-app.post('/api/deleteUser',authorize, delete_user, (req, res) =>{
-    res.send(200);
-});
+app.post('/api/deleteUser',authorize, delete_user);
 
 app.post('/api/sendMessage', authorize, send_message);
 
@@ -42,6 +43,8 @@ app.get('/api/getMessages', authorize, get_messages);
 app.post('/api/addContact', authorize, add_contact);
 
 app.get('/api/getContacts', authorize, get_contacts);
+
+app.post('api/deleteContact', authorize, delete_contact);
 
 
 const port = process.env.PORT || 3000;
