@@ -11,27 +11,37 @@ function register(req, res, next) {
     const SQLinsert = `INSERT INTO user
   (User_Password, User_Name, First_Name, Last_Name, Email, Creation_Date)
   VALUES (?,?,?,?,?,?)`;
-
-    db.run(SQLinsert, [password, username, first_name, last_name, email, date], (err) => {
-        if (err) {
-            console.log(err);
-            if (err.toString().toLowerCase().includes('email')) {
-                res.send("Error: Email Must be Unique");
-            }
-            else if (err.toString().toLowerCase().includes('user_name')) {
-                res.send("Error: Username Must be Unique");
+    if(username.length <= 5){
+        res.send("Username Must be at Least 6 characters Long.");
+    }
+    else if(password.length <= 5){
+        res.send("Password Must be at Least 6 characters Long.");
+    }
+    else if(email.length <= 3 || !email.includes('@')){
+        res.send("Please Enter a Valid Email.");
+    }
+    else{
+        db.run(SQLinsert, [password, username, first_name, last_name, email, date], (err) => {
+            if (err) {
+                console.log(err);
+                if (err.toString().toLowerCase().includes('user_name')) {
+                    res.send("Error: Username Must be Unique");
+                }
+                else if (err.toString().toLowerCase().includes('email')) {
+                    res.send("Error: Email Must be Unique");
+                }
+                else {
+                    res.send("Unexpected Error!");
+                }
             }
             else {
-                res.send("Unexpected Error!");
+                res.send("User Created Successfully");
             }
-        }
-        else {
-            console.log("msg");
-            res.send("User Created Successfully");
-        }
 
 
-    });
+        });
+    }
+
 
 }
 

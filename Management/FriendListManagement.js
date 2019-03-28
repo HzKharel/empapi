@@ -7,11 +7,12 @@ function add_contact(req, res, next) {
     const reciverName = req.body.contact;
     const contactID = senderName+reciverName;
 
-    const sql = "INSERT INTO ContactList (ID, User_Name, Contact_Name) VALUES (?,?)";
+    const sql = "INSERT INTO ContactList (ID, User_Name, Contact_Name) VALUES (?,?,?)";
 
     db.run(sql, [contactID, senderName,reciverName], (err)=>{
        if(err){
-           res.sendStatus(400);
+           console.log(err);
+           res.send(err);
        }
        else{
            res.sendStatus(200);
@@ -27,7 +28,7 @@ function get_contacts(req, res, next) {
     const sql = `SELECT DISTINCT Contact_Name FROM ContactList WHERE User_Name =  "${user_name}"`;
     db.all(sql, [], (err, rows)=>{
        if(err){
-           res.send(400);
+           res.send(err);
        }
        else {
            rows.forEach((row)=>{
@@ -41,6 +42,7 @@ function get_contacts(req, res, next) {
            });
 
        }
+       console.log(contacts);
         res.send(contacts);
     });
 }
