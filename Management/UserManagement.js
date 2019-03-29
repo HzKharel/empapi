@@ -49,12 +49,10 @@ function auth(req, res, next) {
     const username = req.header('username');
     const password = req.header('password');
 
-    console.log(username, password);
     let sql = `SELECT User_Name, User_Password FROM User WHERE User_Name = "${username}"`;
     db.get(sql, [], (err, row)=>{
         if(err){
-            console.log(err);
-            res.sendStatus(400);
+            res.sendStatus(err);
         }
         else {
             try{
@@ -64,12 +62,12 @@ function auth(req, res, next) {
                 else{
 
                     console.log("user not found");
-                    res.send(404);
+                    res.sendStatus(404);
                 }
             }
             catch (e){
                 console.log("Error");
-                res.send(400);
+                res.send(e);
             }
 
         }

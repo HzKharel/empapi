@@ -7,17 +7,23 @@ function add_contact(req, res, next) {
     const reciverName = req.body.contact;
     const contactID = senderName+reciverName;
 
-    const sql = "INSERT INTO ContactList (ID, User_Name, Contact_Name) VALUES (?,?,?)";
+    if(contactID.length <= 5){
+            res.send("Contact ID Must be at Least 6 characters Long.");
+    }
+    else{
+        const sql = "INSERT INTO ContactList (ID, User_Name, Contact_Name) VALUES (?,?,?)";
+        db.run(sql, [contactID, senderName,reciverName], (err)=>{
+            if(err){
 
-    db.run(sql, [contactID, senderName,reciverName], (err)=>{
-       if(err){
-           console.log(err);
-           res.send(err);
-       }
-       else{
-           res.sendStatus(200);
-       }
-    });
+                res.send("No Need, That Contact is Already On Your List.");
+            }
+            else{
+
+                res.send("Contact Added Successfully.");
+            }
+        });
+    }
+
 }
 
 function get_contacts(req, res, next) {
@@ -42,7 +48,6 @@ function get_contacts(req, res, next) {
            });
 
        }
-       console.log(contacts);
         res.send(contacts);
     });
 }
