@@ -51,6 +51,7 @@ function auth(req, res, next) {
 
     let sql = `SELECT User_Name, User_Password FROM User WHERE User_Name = "${username}"`;
     db.get(sql, [], (err, row)=>{
+
         if(err){
             res.sendStatus(err);
         }
@@ -66,8 +67,7 @@ function auth(req, res, next) {
                 }
             }
             catch (e){
-                console.log("Error");
-                res.send(e);
+                res.sendStatus(404);
             }
 
         }
@@ -81,6 +81,7 @@ function updateDetails(req, res, next) {
     let last_name = req.body.last_name;
     let password = req.body.password;
     let email = req.body.email;
+
 
     let sql = `UPDATE
                  user

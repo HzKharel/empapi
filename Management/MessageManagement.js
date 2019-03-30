@@ -45,7 +45,7 @@ function getMesseages(req, res, next) {
                 try {
 
                     rows.forEach((row) => {
-                        const sent_message = row.Sent_Message;
+                        let sent_message = row.Sent_Message;
                         const from_user = row.From_User;
                         const to_user = row.To_User;
                         const encryption = row.Encryption;
@@ -63,6 +63,7 @@ function getMesseages(req, res, next) {
                         messages.push(message);
 
                     });
+
                     res.send(JSON.stringify(messages));
                 }
                 catch (e) {

@@ -18,7 +18,7 @@ CREATE TABLE ContactList (
 );
 
 CREATE TABLE Message (
-	Sent_Message varchar(1000) NOT NULL,
+	Sent_Message varchar() NOT NULL,
 	From_User int NOT NULL,
 	To_User int NOT NULL,
 	Encryption varchar(100) NOT NULL,
