@@ -39,11 +39,8 @@ function getMesseages(req, res, next) {
     let sql = `SELECT * FROM Message WHERE To_User = "${user}"`;
     if(!inbox){
         sql = `SELECT * FROM Message WHERE From_User = "${user}"`;
-        console.log('outbox');
     }
-    else {
-        console.log('inbox');
-    }
+
 
 
 
