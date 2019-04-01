@@ -34,8 +34,18 @@ function sendMessage(req, res, next) {
 function getMesseages(req, res, next) {
     const user = req.header('username');
 
+    let inbox = req.query.inbox;
     var messages = [];
     let sql = `SELECT * FROM Message WHERE To_User = "${user}"`;
+    if(!inbox){
+        sql = `SELECT * FROM Message WHERE From_User = "${user}"`;
+        console.log('outbox');
+    }
+    else {
+        console.log('inbox');
+    }
+
+
 
     db.all(sql, [], (err, rows) => {
             if (err) {
@@ -60,6 +70,7 @@ function getMesseages(req, res, next) {
                             "sent_date": sent_date,
                             "encryption_key": encryption_key
                         };
+
                         messages.push(message);
 
                     });
