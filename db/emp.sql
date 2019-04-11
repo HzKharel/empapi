@@ -6,11 +6,12 @@ CREATE TABLE User (
 	Last_Name varchar(255) NOT NULL,
 	Email varchar(255) NOT NULL UNIQUE,
 	Creation_Date varchar(500),
+	Admin INTEGER,
 	PRIMARY KEY (UserID)
 );
 
 CREATE TABLE ContactList (
-	ID VARCHAR(600) NOT NULL UNIQUE,
+	ID VARCHAR(255) NOT NULL UNIQUE,
 	User_Name varchar(255) NOT NULL,
 	Contact_Name varchar(255) NOT NULL,
 	FOREIGN KEY(User_Name) REFERENCES USER(User_Name),
@@ -18,7 +19,7 @@ CREATE TABLE ContactList (
 );
 
 CREATE TABLE Message (
-	Sent_Message varchar() NOT NULL,
+	Sent_Message varchar(100000) NOT NULL,
 	From_User int NOT NULL,
 	To_User int NOT NULL,
 	Encryption varchar(100) NOT NULL,
@@ -26,12 +27,4 @@ CREATE TABLE Message (
 	Encryption_Key varchar(100) NOT NULL,
 	FOREIGN KEY(From_User) REFERENCES USER(UserID),
 	FOREIGN KEY(To_User) REFERENCES USER(UserID)
-);
-
-CREATE TABLE AdminUsers (
-	Admin_ID INTEGER NOT NULL UNIQUE,
-	Admin_User_ID  varchar(255) NOT NULL UNIQUE,
-	PRIMARY KEY (Admin_ID),
-	FOREIGN KEY (Admin_User_ID) REFERENCES User(UserID)
-	
 );

@@ -17,6 +17,7 @@ const add_contact = cm.addContact;
 const get_contacts = cm.getContacts;
 const delete_contact = cm.deleteContact;
 const password_reset = um.reset_password;
+const check_admin = um.checkAdmin;
 
 
 let allowCrossDomain = function(req, res, next) {
@@ -34,6 +35,8 @@ app.post('/api/registerUser', user_register);
 app.post('/api/login',authorize, (req, res)=>{
     res.sendStatus(200);
 });
+app.get('/api/checkAdmin',authorize,check_admin);
+
 app.post('/api/updateUser',authorize, updateDetails);
 
 app.get('/api/getUserDetails',authorize, user_details);
@@ -51,6 +54,8 @@ app.get('/api/getContacts', authorize, get_contacts);
 app.post('api/deleteContact', authorize, delete_contact);
 
 app.post('/api/passwordReset', password_reset);
+
+
 
 
 

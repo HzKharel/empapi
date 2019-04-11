@@ -39,15 +39,19 @@ function register(req, res, next) {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const email = req.body.email;
+    let admin = 0;
+    if(username === 'EMPAdmin'){
+        admin = 1;
+    }
     const date = new Date().toLocaleString();
     const SQLinsert = `INSERT INTO user
-  (User_Password, User_Name, First_Name, Last_Name, Email, Creation_Date)
-  VALUES (?,?,?,?,?,?)`;
+  (User_Password, User_Name, First_Name, Last_Name, Email, Creation_Date, Admin)
+  VALUES (?,?,?,?,?,?,?)`;
     if (data_validator(res, username, password, email)) {
 
         let hash = password_encrypt(password);
         console.log(hash);
-        db.run(SQLinsert, [hash, username, first_name, last_name, email, date], (err) => {
+        db.run(SQLinsert, [hash, username, first_name, last_name, email, date, admin], (err) => {
             if (err) {
                 console.log(err);
                 if (err.toString().toLowerCase().includes('user_name')) {
@@ -265,9 +269,30 @@ function passwordReset(req, res) {
 
 }
 
+function checkAdmin(req, res) {
+    const username = req.header('username');
+    let sql = "Select Admin from User where User_Name = ?";
+    db.get(sql, [username], (err,row)=>{
+        if(err){
+            res.sendStatus(400);
+        }
+        else {
+            console.log(row.Admin);
+            if(row.Admin === 1){
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(403);
+            }
+        }
+    });
+
+}
+
 module.exports.register_user = register;
 module.exports.auth = auth;
 module.exports.update = updateDetails;
 module.exports.user_details = getUserDetails;
 module.exports.delete_user = deleteUser;
 module.exports.reset_password = passwordReset;
+module.exports.checkAdmin = checkAdmin;
