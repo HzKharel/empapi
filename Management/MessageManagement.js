@@ -1,5 +1,14 @@
+const nodemailer = require('nodemailer');
 const sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database('./db/empDB.db');
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'encodedmessagingplatform@gmail.com',
+        pass: 'Empapi10!'
+    }
+});
 
 function sendMessage(req, res, next) {
     const message = req.body.message;
@@ -29,6 +38,22 @@ function sendMessage(req, res, next) {
         res.sendStatus(e);
     }
 
+    db.get(`SELECT Email FROM User where User_Name = ?`, [to_user], (err, row)=>{
+        const mailOptions = {
+            from: 'emp@gmail.com',
+            to: row.Email,
+            subject: `New Message from ${from_user}`,
+            html: `<h2>Hello, ${to_user} </h2> <br><hr> <p> You have a new message from ${from_user} in your inbox.</p>
+                    <p>Head over to the inbox page to read it. Remember, you will need the cipher and the key to decipher the message.</p>`
+        }
+
+        transporter.sendMail(mailOptions, (err,info)=>{
+            if(err){
+                console.log(err);
+            }
+        });
+    });
+
 }
 
 function getMesseages(req, res, next) {
@@ -36,12 +61,14 @@ function getMesseages(req, res, next) {
 
     let inbox = req.query.inbox;
     var messages = [];
-    let sql = `SELECT * FROM Message WHERE To_User = "${user}"`;
-    if(!inbox){
-        sql = `SELECT * FROM Message WHERE From_User = "${user}"`;
+    let sql;
+    if(inbox === 'true'){
+        sql = `SELECT * FROM Message WHERE To_User = "${user}"`;
     }
+    else {
+        sql = `SELECT * FROM Message WHERE From_User = "${user}"`;
 
-
+    }
 
 
     db.all(sql, [], (err, rows) => {

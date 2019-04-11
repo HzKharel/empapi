@@ -16,6 +16,8 @@ const get_messages = mm.get_messages;
 const add_contact = cm.addContact;
 const get_contacts = cm.getContacts;
 const delete_contact = cm.deleteContact;
+const password_reset = um.reset_password;
+
 
 let allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
@@ -48,6 +50,10 @@ app.get('/api/getContacts', authorize, get_contacts);
 
 app.post('api/deleteContact', authorize, delete_contact);
 
+app.post('/api/passwordReset', password_reset);
+
+
 
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => console.log(`Listening on port ${port}.`));
