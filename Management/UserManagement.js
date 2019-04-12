@@ -210,9 +210,11 @@ function getUserDetails(req, res, next) {
 }
 
 function deleteUser(req, res, next) {
+    console.log("called");
     const user_name = req.header('username');
-    let sql = `DELETE FROM User WHERE User_Name = "${user_name}"`;
-    db.run(sql, [], (err) => {
+    let sql = `DELETE FROM User WHERE User_Name = ?`;
+    db.run(sql, [user_name], (err) => {
+        console.log(err);
         if (err) {
             res.sendStatus(400);
         }
@@ -269,7 +271,7 @@ function passwordReset(req, res) {
 
 }
 
-function checkAdmin(req, res) {
+function checkAdmin(req, res, next) {
     const username = req.header('username');
     let sql = "Select Admin from User where User_Name = ?";
     db.get(sql, [username], (err,row)=>{
@@ -279,7 +281,7 @@ function checkAdmin(req, res) {
         else {
             console.log(row.Admin);
             if(row.Admin === 1){
-                res.sendStatus(200);
+               next();
             }
             else {
                 res.sendStatus(403);
