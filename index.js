@@ -76,6 +76,6 @@ app.post('/api/adminDeleteUser', authorize, check_admin, admin_delete_user);
 
 
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}.`));
