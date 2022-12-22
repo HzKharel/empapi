@@ -22,7 +22,7 @@
     "crypto": "^1.0.1",
     "express": "^4.16.4",
     "https": "^1.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "node-mailer": "^0.1.1",
     "nodemailer": "^6.0.0",
     "nodemon": "^1.18.10",
